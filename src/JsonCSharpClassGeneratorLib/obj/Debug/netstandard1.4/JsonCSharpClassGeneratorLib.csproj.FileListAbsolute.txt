@@ -1,4 +1,0 @@
-/Users/zhuyu/github/jsonclassgenerator/src/JsonCSharpClassGeneratorLib/bin/Debug/netstandard1.4/JsonCSharpClassGeneratorLib.deps.json
-/Users/zhuyu/github/jsonclassgenerator/src/JsonCSharpClassGeneratorLib/obj/Debug/netstandard1.4/JsonCSharpClassGeneratorLib.Properties.Resources.resources
-/Users/zhuyu/github/jsonclassgenerator/src/JsonCSharpClassGeneratorLib/obj/Debug/netstandard1.4/JsonCSharpClassGeneratorLib.csproj.GenerateResource.Cache
-/Users/zhuyu/github/jsonclassgenerator/src/JsonCSharpClassGeneratorLib/obj/Debug/netstandard1.4/JsonCSharpClassGeneratorLib.AssemblyInfo.cs
