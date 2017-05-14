@@ -28,14 +28,13 @@ namespace JsonCSharpClassGeneratorLib.Test
             gen.Namespace = "Demo";
 
 
-            gen.NoHelperClass = false;
+            gen.NoHelperClass = true;
             gen.SecondaryNamespace = null;
             gen.UseProperties = true;
-            gen.MainClass = "Employee";
             gen.UsePascalCase = true;
-            //gen.PropertyAttribute = propertyAttribute;
+            gen.PropertyAttribute = "DataMember";
 
-            gen.UseNestedClasses = true;
+            gen.UseNestedClasses = false;
             gen.ApplyObfuscationAttributes = false;
             gen.SingleFile = true;
             gen.ExamplesInDocumentation = false;

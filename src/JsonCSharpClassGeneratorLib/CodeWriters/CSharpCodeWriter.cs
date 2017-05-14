@@ -9,6 +9,15 @@ namespace Xamasoft.JsonClassGenerator.CodeWriters
 {
     public class CSharpCodeWriter : ICodeWriter
     {
+        private static HashSet<string> _csharpKeywords = new HashSet<string>
+        {
+            "abstract", "as", "base", "bool", "break", "byte", "case", "catch", "char", "checked", "class", "const", "continue", "decimal", "default",
+            "delegate", "do", "double", "else", "enum", "event", "explicit", "extern", "false", "finally", "fixed", "float", "for", "foreach", "goto",
+            "if", "implicit", "in", "int", "interface", "internal", "is", "lock", "long", "namespace", "new", "null", "object", "operator", "out",
+            "override", "params", "private", "protected", "public", "readonly", "ref", "return", "sbyte", "sealed", "short", "sizeof", "stackalloc",
+            "static", "string", "struct", "switch", "this", "throw", "true", "try", "typeof", "uint", "ulong", "unchecked", "unsafe", "ushort", "using",
+            "virtual", "void", "volatile", "while"
+        };
         public string FileExtension
         {
             get { return ".cs"; }
@@ -115,14 +124,17 @@ namespace Xamasoft.JsonClassGenerator.CodeWriters
 
         public void WriteClass(IJsonClassGeneratorConfig config, TextWriter sw, JsonType type)
         {
-            var visibility = config.InternalVisibility ? "internal" : "public";
-
+            var visibility = (config.InternalVisibility ? "internal" : "public") + (config.GeneratePartialClasses ? " partial" : "");
 
 
             if (config.UseNestedClasses)
             {
                 if (!type.IsRoot)
                 {
+                    if (config.PropertyAttribute == "DataMember")
+                    {
+                        sw.WriteLine("        [DataContract]");
+                    }
                     if (ShouldApplyNoRenamingAttribute(config)) sw.WriteLine("        " + NoRenameAttribute);
                     if (ShouldApplyNoPruneAttribute(config)) sw.WriteLine("        " + NoPruneAttribute);
                     sw.WriteLine("        {0} class {1}", visibility, type.AssignedName);
@@ -131,6 +143,10 @@ namespace Xamasoft.JsonClassGenerator.CodeWriters
             }
             else
             {
+                if (config.PropertyAttribute == "DataMember")
+                {
+                    sw.WriteLine("    [DataContract]");
+                }
                 if (ShouldApplyNoRenamingAttribute(config)) sw.WriteLine("    " + NoRenameAttribute);
                 if (ShouldApplyNoPruneAttribute(config)) sw.WriteLine("    " + NoPruneAttribute);
                 sw.WriteLine("    {0} class {1}", visibility, type.AssignedName);
@@ -184,6 +200,7 @@ namespace Xamasoft.JsonClassGenerator.CodeWriters
         {
             foreach (var field in type.Fields)
             {
+                if (config.PropertyAttribute != "None" || config.ExamplesInDocumentation) sw.WriteLine();
                 if (config.UsePascalCase || config.ExamplesInDocumentation) sw.WriteLine();
 
                 if (config.ExamplesInDocumentation)
@@ -193,10 +210,12 @@ namespace Xamasoft.JsonClassGenerator.CodeWriters
                     sw.WriteLine(prefix + "/// </summary>");
                 }
 
-                if (config.UsePascalCase)
+                if (config.UsePascalCase || config.PropertyAttribute != "None")
                 {
-
-                    sw.WriteLine(prefix + "[JsonProperty(\"{0}\")]", field.JsonMemberName);
+                    if (config.PropertyAttribute == "DataMember")
+                        sw.WriteLine(prefix + "[" + config.PropertyAttribute + "(Name=\"{0}\")]", field.JsonMemberName);
+                    else if (config.PropertyAttribute == "JsonProperty")
+                        sw.WriteLine(prefix + "[" + config.PropertyAttribute + "(\"{0}\")]", field.JsonMemberName);
                 }
 
                 if (config.UseProperties)
@@ -211,7 +230,16 @@ namespace Xamasoft.JsonClassGenerator.CodeWriters
 
         }
 
+        private bool ShouldPrefix(string fieldName)
+        {
+            if (char.IsNumber(fieldName.ToCharArray()[0]))
+                return true;
 
+            if (_csharpKeywords.Contains(fieldName))
+                return true;
+
+            return false;
+        }
 
 
 

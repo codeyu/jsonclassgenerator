@@ -77,6 +77,8 @@ namespace Xamasoft.JsonClassGenerator
 
         public void AssignName(string name)
         {
+            if (char.IsNumber(name.ToCharArray()[0]))
+                name = "_" + name;
             AssignedName = name;
         }
 

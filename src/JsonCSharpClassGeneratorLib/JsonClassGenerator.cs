@@ -34,11 +34,12 @@ namespace Xamasoft.JsonClassGenerator
         public TextWriter OutputStream { get; set; }
         public bool AlwaysUseNullableValues { get; set; }
         public bool ExamplesInDocumentation { get; set; }
-
+        public string PropertyAttribute { get; set; }
         private PluralizationService pluralizationService = PluralizationService.CreateService(new CultureInfo("en-us"));
 
         private bool used = false;
         public bool UseNamespaces { get { return Namespace != null; } }
+        public bool GeneratePartialClasses { get; set; }
         public IList<JsonType> Types { get; private set; }
         private HashSet<string> Names = new HashSet<string>();
 
@@ -74,9 +75,11 @@ namespace Xamasoft.JsonClassGenerator
                     throw new Exception("Sample JSON must be either a JSON array, or a JSON object.");
                 }
             }
-
-
             Types = new List<JsonType>();
+            if (string.IsNullOrEmpty(MainClass))
+            {
+                MainClass = "RootObject";
+            }
             Names.Add(MainClass);
             var rootType = new JsonType(this, examples[0]);
             rootType.IsRoot = true;
