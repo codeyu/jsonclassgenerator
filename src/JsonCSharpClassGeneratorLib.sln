@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26228.12
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JsonCSharpClassGeneratorLib", "JsonCSharpClassGeneratorLib\JsonCSharpClassGeneratorLib.csproj", "{62EDC6BD-E77E-4352-B57A-CDF4F094437A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "System.Data.Entity.Design.PluralizationServices", "System.Data.Entity.Design.PluralizationServices\System.Data.Entity.Design.PluralizationServices.csproj", "{D8113308-FFF6-4147-B8D4-8392DB7820F0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JsonCSharpClassGeneratorLib.Test", "..\test\JsonCSharpClassGeneratorLib.Test\JsonCSharpClassGeneratorLib.Test.csproj", "{8D8E3263-E533-4147-8CA2-D073F971D8B5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{62EDC6BD-E77E-4352-B57A-CDF4F094437A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{62EDC6BD-E77E-4352-B57A-CDF4F094437A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{62EDC6BD-E77E-4352-B57A-CDF4F094437A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{62EDC6BD-E77E-4352-B57A-CDF4F094437A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D8113308-FFF6-4147-B8D4-8392DB7820F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D8113308-FFF6-4147-B8D4-8392DB7820F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D8113308-FFF6-4147-B8D4-8392DB7820F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D8113308-FFF6-4147-B8D4-8392DB7820F0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8D8E3263-E533-4147-8CA2-D073F971D8B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D8E3263-E533-4147-8CA2-D073F971D8B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D8E3263-E533-4147-8CA2-D073F971D8B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D8E3263-E533-4147-8CA2-D073F971D8B5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

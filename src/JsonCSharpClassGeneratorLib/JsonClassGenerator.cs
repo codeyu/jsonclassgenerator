@@ -10,14 +10,13 @@ using System.IO;
 using System.Data.Entity.Design.PluralizationServices;
 using System.Globalization;
 using Xamasoft.JsonClassGenerator.CodeWriters;
-
+using System.Reflection;
+using JsonCSharpClassGeneratorLib;
 
 namespace Xamasoft.JsonClassGenerator
 {
     public class JsonClassGenerator : IJsonClassGeneratorConfig
     {
-
-
         public string Example { get; set; }
         public string TargetFolder { get; set; }
         public string Namespace { get; set; }
@@ -40,6 +39,8 @@ namespace Xamasoft.JsonClassGenerator
 
         private bool used = false;
         public bool UseNamespaces { get { return Namespace != null; } }
+        public IList<JsonType> Types { get; private set; }
+        private HashSet<string> Names = new HashSet<string>();
 
         public void GenerateClasses()
         {
@@ -84,9 +85,8 @@ namespace Xamasoft.JsonClassGenerator
 
             if (writeToDisk)
             {
-
-                var parentFolder = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
-                if (writeToDisk && !NoHelperClass && ExplicitDeserialization) File.WriteAllBytes(Path.Combine(TargetFolder, "JsonClassHelper.cs"), Properties.Resources.JsonClassHelper);
+                var parentFolder = System.IO.Path.GetDirectoryName(AppContext.BaseDirectory);
+                if (writeToDisk && !NoHelperClass && ExplicitDeserialization) File.WriteAllText(Path.Combine(TargetFolder, "JsonClassHelper.cs"),Res.JsonClassHelper);
                 if (SingleFile)
                 {
                     WriteClassesToFile(Path.Combine(TargetFolder, MainClass + CodeWriter.FileExtension), Types);
@@ -114,10 +114,21 @@ namespace Xamasoft.JsonClassGenerator
             }
 
         }
-
+        //public static byte[] ExtractResource(String filename)
+        //{
+        //    System.Reflection.Assembly a = typeof(Xamasoft.JsonClassGenerator.JsonClassGenerator).GetTypeInfo().Assembly;
+        //    using (Stream resFilestream = a.GetManifestResourceStream(filename))
+        //    {
+        //        if (resFilestream == null) return null;
+        //        byte[] ba = new byte[resFilestream.Length];
+        //        resFilestream.Read(ba, 0, ba.Length);
+        //        return ba;
+        //    }
+        //}
         private void WriteClassesToFile(string path, IEnumerable<JsonType> types)
         {
-            using (var sw = new StreamWriter(path, false, Encoding.UTF8))
+            using(var buffer = new FileStream(path, FileMode.OpenOrCreate))
+            using (var sw = new StreamWriter(buffer))
             {
                 WriteClassesToFile(sw, types);
             }
@@ -258,9 +269,7 @@ namespace Xamasoft.JsonClassGenerator
 
         }
 
-        public IList<JsonType> Types { get; private set; }
-        private HashSet<string> Names = new HashSet<string>();
-
+       
         private string CreateUniqueClassName(string name)
         {
             name = ToTitleCase(name);
